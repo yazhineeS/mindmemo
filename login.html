@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MindMemo - Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="container login-container">
+    <h1>MindMemo <span class="emoji">💭</span></h1>
+    <p class="tagline">Where your thoughts find a HOME! <span class="emoji">❤️</span></p>
+
+    <div class="tabs">
+      <button type="button" class="tab-btn {% if active_tab != 'signup' %}active{% endif %}" data-tab="login">Login</button>
+      <button type="button" class="tab-btn {% if active_tab == 'signup' %}active{% endif %}" data-tab="signup">Sign up</button>
+    </div>
+
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('login') }}" class="login-form">
+      <input type="hidden" name="action" id="form-action" value="{% if active_tab == 'signup' %}signup{% else %}login{% endif %}" />
+      <input type="text" name="username" placeholder="Username" required autofocus />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit" id="submit-btn">
+        {% if active_tab == 'signup' %}Create account{% else %}Login{% endif %}
+      </button>
+    </form>
+
+    <p class="hint" id="hint-text">
+      {% if active_tab == 'signup' %}
+        Already have an account? Click Login above.
+      {% else %}
+        New here? Click Sign up above to create your own private journal.
+      {% endif %}
+    </p>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MindMemo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="container">
+    <div class="header-row">
+      <h1>MindMemo <span class="emoji">💭</span></h1>
+      <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+    </div>
+    <p class="tagline">Welcome, {{ username }}! Where your thoughts find a HOME! <span class="emoji">❤️</span></p>
+
+    <form method="POST" action="{{ url_for('index') }}" class="entry-form">
+      <textarea name="entry" placeholder="Write something beautiful today..." required></textarea>
+      <button type="submit">Save Entry</button>
+    </form>
+
+    <h2>📖 Previous Entries</h2>
+
+    <ul class="entries-list">
+      {% for e in entries %}
+        <li class="entry">
+          <span class="entry-timestamp">{{ e['timestamp'] }}</span>
+          <span class="entry-content">{{ e['entry'] }}</span>
+          <form method="POST" action="{{ url_for('delete_entry_route', entry_id=e['id']) }}" class="delete-form">
+            <button type="submit">🗑 Delete</button>
+          </form>
+        </li>
+      {% else %}
+        <li class="empty">No entries yet. Write your first thought above!</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
